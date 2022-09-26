@@ -33,7 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
                  self.movies = dataDictionary["results"] as! [[String:Any]]
                  self.tableView.reloadData()
-                 print(dataDictionary)
+                // print(dataDictionary)
                     // TODO: Get the array of movies
                     // TODO: Store the movies in a property to use elsewhere
                     // TODO: Reload your table view data
@@ -66,5 +66,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         return cell
     }
+            // in a storyboard application, u will often want to do a little preparation before navigation
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+            //get the new view controller using segue.destination.
+            //pass the selected object to the new view controller
+            
+        print("Loading up the details screen")
+            
+            //find the selected movie
+            //below sender is the cell that was tapped
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPath(for: cell)!
+            let movie = movies[indexPath.row]
+            
+            // pass the selected movie to the details view controller
+            let detailsViewController = segue.destination as! MovieDetailsViewController
+            detailsViewController.movie = movie
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
 }
 
